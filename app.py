@@ -84,7 +84,6 @@ from folium.features import GeoJsonTooltip, GeoJson
 
 # Arquivos
 df_init = pd.read_csv('df_16_20_VER.csv')
-#shapefile = gpd.read_file('Limite_bairros.shp')
 geojson_data = gpd.read_file('limitebairros.json')
 
 # Preparação dataframe >>>> TEM QUE PADRONIZAR OS CARGOS
@@ -228,7 +227,6 @@ partido_selecionado = st.selectbox('Selecione o Partido', partidos)
 
 votos_filtrados = df_grouped_bairros[df_grouped_bairros['SG_PARTIDO'] == partido_selecionado]
 
-#dados = shapefile.merge(votos_filtrados, on='BAIRRO')
 dados = geojson_data.merge(df_final, on='BAIRRO')
 
 mapa = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
