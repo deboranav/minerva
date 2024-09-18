@@ -3,3 +3,5 @@ pandas
 plotly
 geopandas
 folium
+shapely    
+fiona 

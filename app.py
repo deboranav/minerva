@@ -84,7 +84,7 @@ from folium.features import GeoJsonTooltip, GeoJson
 
 # Arquivos
 df_init = pd.read_csv('df_16_20_VER.csv')
-geojson_data = gpd.read_file('limitebairros.json')
+geojson_data = gpd.read_file('data/limite_bairros.json')
 
 # Preparação dataframe >>>> TEM QUE PADRONIZAR OS CARGOS
 df_init.rename(columns={'NM_BAIRRO': 'BAIRRO'}, inplace=True)
