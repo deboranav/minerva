@@ -187,7 +187,7 @@ def estilo_bairro(feature):
 # Adicionar a camada de GeoJSON com as cores
 geojson = GeoJson(
    # dados_geoespaciais,
-    dados_geoespaciais, #.__geo_interface__,
+    dados_geoespaciais.__geo_interface__,
     style_function=estilo_bairro,
     tooltip=GeoJsonTooltip(
         fields=['BAIRRO', 'SG_PARTIDO', 'QT_VOTOS', 'SG_PARTIDO_second', 'QT_VOTOS_second'],
