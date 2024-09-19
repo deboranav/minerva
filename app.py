@@ -83,7 +83,7 @@ import folium
 from folium.features import GeoJsonTooltip, GeoJson
 
 # Arquivos
-df_init = pd.read_csv('df_16_20_VER.csv')
+df_init = pd.read_csv('df_16_20_PREF_VER.csv')
 shapefile = gpd.read_file('data/Limite_Bairros.shp')
 
 # Preparação dataframe >>>> TEM QUE PADRONIZAR OS CARGOS
@@ -92,7 +92,7 @@ df_init['BAIRRO'] = df_init['BAIRRO'].map(mapeamento_bairros)
 
 # Organização layout
 st.set_page_config(layout="wide")
-pagina = st.sidebar.radio("Escolha a página", ["Prefeito", "Vereador"], horizontal=True)
+pagina = st.sidebar.radio("Escolha o cargo", ["Prefeito", "Vereador"], horizontal=True)
 year = st.sidebar.selectbox("Ano", df_init["ANO_ELEICAO"].unique())
 
 st.title(f'Dados Eleitorais - {year}')
