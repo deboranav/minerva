@@ -84,7 +84,7 @@ from folium.features import GeoJsonTooltip, GeoJson
 
 # Arquivos
 df_init = pd.read_csv('df_16_20_VER.csv')
-geojson_data = gpd.read_file('data/Limite_Bairros.shp')
+shapefile = gpd.read_file('data/Limite_bairros.shp')
 
 # Preparação dataframe >>>> TEM QUE PADRONIZAR OS CARGOS
 df_init.rename(columns={'NM_BAIRRO': 'BAIRRO'}, inplace=True)
@@ -156,7 +156,6 @@ with col3:
 
 ### Gráficos de partido em mapa ###
 ## Gráfico 3 ##
-
 st.title('Partidos mais votados por Bairro')
 
 df_grouped_bairros = df.groupby(['BAIRRO', 'SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
@@ -172,7 +171,7 @@ df_second_place = df_grouped_bairros[df_grouped_bairros['rank'] == 2]
 df_final = df_max_votos.merge(df_second_place[['BAIRRO', 'SG_PARTIDO', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
 
 # Carrega o shapefile 
-dados_geoespaciais = geojson_data.merge(df_final, on='BAIRRO')
+dados_geoespaciais = shapefile.merge(df_final, on='BAIRRO')
 mapa = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
 
 def estilo_bairro(feature):
@@ -187,7 +186,6 @@ def estilo_bairro(feature):
 
 # Adicionar a camada de GeoJSON com as cores
 geojson = GeoJson(
-   # dados_geoespaciais,
     dados_geoespaciais,
     style_function=estilo_bairro,
     tooltip=GeoJsonTooltip(
@@ -228,7 +226,7 @@ partido_selecionado = st.selectbox('Selecione o Partido', partidos)
 
 votos_filtrados = df_grouped_bairros[df_grouped_bairros['SG_PARTIDO'] == partido_selecionado]
 
-dados = geojson_data.merge(df_final, on='BAIRRO')
+dados = shapefile.merge(votos_filtrados, on='BAIRRO')
 
 mapa = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
 
@@ -255,3 +253,5 @@ mapa.save('mapa.html')
 
 # Exibição
 st.components.v1.html(open('mapa.html', 'r').read(), height=600)
+
+
