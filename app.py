@@ -97,8 +97,6 @@ cargo = st.sidebar.radio("Escolha o cargo", ["PREFEITO", "VEREADOR"], horizontal
 year = st.sidebar.selectbox("Ano", df_init["ANO_ELEICAO"].unique())
 
 st.title(f'Dados Eleitorais - {year}')
-st.title('te amo')
-
 
 df = df_init[df_init['ANO_ELEICAO'] == year]
 df = df[df['DS_CARGO'] == cargo]
