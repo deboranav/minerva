@@ -212,7 +212,34 @@ with col1:
 with col2:
     st.plotly_chart(fig4)
 
-####
+###
+#### top 10 bairros ###
+
+df_top_bairros = df.groupby(['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'LEGENDA'])['QT_VOTOS'].sum().reset_index()
+df_top_bairros = df_top_bairros[df_top_bairros['LEGENDA'] == 0]
+
+st.title('Bairros com mais voto por candidato')
+
+# Dropdown para selecionar a zona eleitoral
+cand_unicos = df_top_bairros['NM_VOTAVEL'].unique()
+cand_selecionado = st.selectbox('Selecione o Candidato', cand_unicos)
+
+df_filtrado_top_bairros = df_top_bairros[df_top_bairros['NM_VOTAVEL'] == cand_selecionado]
+
+df_top10_bairros = df_filtrado_top_bairros.sort_values(by='QT_VOTOS', ascending=False).head(10)
+
+fig5 = px.bar(
+    df_top10_bairros, 
+    x='BAIRRO', 
+    y='QT_VOTOS', 
+    title=f'Bairros com mais votos em {cand_selecionado}',
+    color='SG_PARTIDO',
+    color_discrete_map=cores_partidos,
+    labels={'QT_VOTOS': 'Total de Votos', 'BAIRRO': 'Bairro'},
+)
+
+st.plotly_chart(fig5)
+
 ### Gráficos de partido em mapa ###
 ## Gráfico 3 ##
 st.title('Partidos mais votados por Bairro')
