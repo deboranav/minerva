@@ -92,7 +92,7 @@ df_init['BAIRRO'] = df_init['BAIRRO'].map(mapeamento_bairros)
 
 # Organização layout
 st.set_page_config(layout="wide")
-pagina = st.radio("Escolha a página", ["Prefeito", "Vereador"], horizontal=True)
+pagina = st.sidebar.radio("Escolha a página", ["Prefeito", "Vereador"], horizontal=True)
 year = st.sidebar.selectbox("Ano", df_init["ANO_ELEICAO"].unique())
 
 st.title(f'Dados Eleitorais - {year}')
