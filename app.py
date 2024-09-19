@@ -92,14 +92,14 @@ df_init['BAIRRO'] = df_init['BAIRRO'].map(mapeamento_bairros)
 
 # Organização layout
 st.set_page_config(layout="wide")
-pagina = st.sidebar.radio("Escolha o cargo", ["Prefeito", "Vereador"], horizontal=True)
+cargo = st.sidebar.radio("Escolha o cargo", ["PREFEITO", "VEREADOR"], horizontal=True)
 year = st.sidebar.selectbox("Ano", df_init["ANO_ELEICAO"].unique())
 
 st.title(f'Dados Eleitorais - {year}')
 
 
 df = df_init[df_init['ANO_ELEICAO'] == year]
-df = df[df['DS_CARGO'] == 'VEREADOR']
+df = df[df['DS_CARGO'] == cargo]
 
 ## Gráfico 1 - Paridos x Zona ##
 
