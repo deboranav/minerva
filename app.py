@@ -84,7 +84,7 @@ from folium.features import GeoJsonTooltip, GeoJson
 
 # Arquivos
 df_init = pd.read_csv('df_16_20_VER.csv')
-geojson_data = gpd.read_file('data/limite_bairros.json')
+geojson_data = gpd.read_file('data/Limite_Bairros.shp')
 
 # Preparação dataframe >>>> TEM QUE PADRONIZAR OS CARGOS
 df_init.rename(columns={'NM_BAIRRO': 'BAIRRO'}, inplace=True)
@@ -156,6 +156,7 @@ with col3:
 
 ### Gráficos de partido em mapa ###
 ## Gráfico 3 ##
+
 st.title('Partidos mais votados por Bairro')
 
 df_grouped_bairros = df.groupby(['BAIRRO', 'SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
@@ -187,7 +188,7 @@ def estilo_bairro(feature):
 # Adicionar a camada de GeoJSON com as cores
 geojson = GeoJson(
    # dados_geoespaciais,
-    dados_geoespaciais.__geo_interface__,
+    dados_geoespaciais,
     style_function=estilo_bairro,
     tooltip=GeoJsonTooltip(
         fields=['BAIRRO', 'SG_PARTIDO', 'QT_VOTOS', 'SG_PARTIDO_second', 'QT_VOTOS_second'],
