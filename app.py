@@ -159,9 +159,58 @@ with col3:
     st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
 
 ####
-## Gráfico 2 - Paridos x Zona ##
+## Gráfico 2 - Paridos x BAirro ##
 
+df_grouped_part_bairro = df.groupby(['BAIRRO', 'SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
 
+st.title('Partidos e Candidatos mais votados por Bairro')
+
+# Dropdown para selecionar a zona eleitoral
+bairros_unicos = df_grouped_part_bairro['BAIRRO'].unique()
+bairro_selecionado = st.selectbox('Selecione o Bairro', bairros_unicos)
+
+df_filtrado_part_bairro = df_grouped_part_bairro[df_grouped_part_bairro['BAIRRO'] == bairro_selecionado]
+
+# Ordenar os partidos 
+df_top6_part_bairro = df_filtrado_part_bairro.sort_values(by='QT_VOTOS', ascending=False).head(6)
+
+fig3 = px.bar(
+    df_top6_part_bairro, 
+    x='SG_PARTIDO', 
+    y='QT_VOTOS', 
+    title=f'Partidos mais votados no bairro {bairro_selecionado}',
+    color='SG_PARTIDO',
+    color_discrete_map=cores_partidos,
+    labels={'QT_VOTOS': 'Total de Votos', 'SG_PARTIDO': 'Partido'},
+)
+
+## Gráfico 2 - Candidatos x Zona ##
+
+df_grouped_cand_bairro = df.groupby(['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'LEGENDA'])['QT_VOTOS'].sum().reset_index()
+df_grouped_cand_bairro = df_grouped_cand_bairro[df_grouped_cand_bairro['LEGENDA'] == 0]
+
+df_filtrado_cand_bairro = df_grouped_cand_bairro[df_grouped_cand_bairro['BAIRRO'] == bairro_selecionado]
+
+df_top6_cand_bairro = df_filtrado_cand_bairro.sort_values(by='QT_VOTOS', ascending=False).head(6)
+
+fig4 = px.bar(
+    df_top6_cand_bairro, 
+    x='NM_VOTAVEL', 
+    y='QT_VOTOS', 
+    title=f'Candidatos mais votados no bairro {bairro_selecionado}',
+    color='SG_PARTIDO',
+    color_discrete_map=cores_partidos,
+    labels={'QT_VOTOS': 'Total de Votos', 'NM_VOTAVEL': 'Candidato'},
+)
+
+# Exibição
+col1, col2 = st.columns([2, 2])
+
+with col1:
+    st.plotly_chart(fig3)
+
+with col2:
+    st.plotly_chart(fig4)
 
 ####
 ### Gráficos de partido em mapa ###
