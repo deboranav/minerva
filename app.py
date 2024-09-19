@@ -94,6 +94,10 @@ df_init['BAIRRO'] = df_init['BAIRRO'].map(mapeamento_bairros)
 st.set_page_config(layout="wide")
 year = st.sidebar.selectbox("Ano", df_init["ANO_ELEICAO"].unique())
 
+# 2. Barra de navegação superior
+st.title(f'Dados Eleitorais - {year}')
+pagina = st.radio("Escolha a página", ["Prefeito", "Vereador"], horizontal=True)
+
 df = df_init[df_init['ANO_ELEICAO'] == year]
 
 ## Gráfico 1 - Paridos x Zona ##
@@ -153,7 +157,11 @@ with col3:
     st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
 
 ####
+## Gráfico 2 - Paridos x Zona ##
 
+
+
+####
 ### Gráficos de partido em mapa ###
 ## Gráfico 3 ##
 st.title('Partidos mais votados por Bairro')
