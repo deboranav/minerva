@@ -99,7 +99,7 @@ st.title(f'Dados Eleitorais - {year}')
 
 
 df = df_init[df_init['ANO_ELEICAO'] == year]
-df = df[df['DS_CARGO'] == 'PREFEITO']
+df = df[df['DS_CARGO'] == 'VEREADOR']
 
 ## Gráfico 1 - Paridos x Zona ##
 
