@@ -344,6 +344,7 @@ st.components.v1.html(open('mapa.html', 'r').read(), height=600)
 st.title('Distribuição de votos em candidatos por bairro')
 
 df_grouped_bairros_cand = df.groupby(['BAIRRO', 'NM_VOTAVEL', 'LEGENDA'])['QT_VOTOS'].sum().reset_index()
+df_grouped_bairros_cand.dropna(subset=['BAIRRO'], inplace=True)
 df_grouped_bairros_cand = df_grouped_bairros_cand[df_grouped_bairros_cand['LEGENDA'] == 0]
 
 candidatos = df_grouped_bairros_cand['NM_VOTAVEL'].unique()
