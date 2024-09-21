@@ -370,7 +370,7 @@ tooltip_c = GeoJsonTooltip(
     aliases=['Bairro:', 'Quantidade de Votos:'],
     localize=True
 )
-choropleth_c.geojson.add_child(tooltip_c)
+choropleth_c.geojson.add_child(tooltip_c) #
 
 mapa_c.save('mapa_c.html')
 st.components.v1.html(open('mapa_c.html', 'r').read(), height=600)
