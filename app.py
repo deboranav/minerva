@@ -343,7 +343,7 @@ st.components.v1.html(open('mapa.html', 'r').read(), height=600)
 
 st.title('Distribuição de votos em candidatos por bairro')
 
-df_grouped_bairros_cand = df.groupby(['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
+df_grouped_bairros_cand = df.groupby(['BAIRRO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
 candidatos = df_grouped_bairros_cand['NM_VOTAVEL'].unique()
 candidato_selecionado = st.selectbox('Selecione o Candidato', candidatos)
 
@@ -372,8 +372,8 @@ tooltip = GeoJsonTooltip(
 )
 choropleth.geojson.add_child(tooltip)
 
-mapa.save('mapa2.html')
+mapa3.save('mapa3.html')
 
 # Exibição
-st.components.v1.html(open('mapa2.html', 'r').read(), height=600)
+st.components.v1.html(open('mapa3.html', 'r').read(), height=600)
 
