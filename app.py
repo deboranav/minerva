@@ -339,4 +339,41 @@ mapa.save('mapa.html')
 # Exibição
 st.components.v1.html(open('mapa.html', 'r').read(), height=600)
 
+## Grafico candidato vereador ##
+
+st.title('Distribuição de votos em candidatos por bairro')
+
+df_grouped_bairros_cand = df.groupby(['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
+candidatos = df_grouped_bairros_cand['NM_VOTAVEL'].unique()
+candidato_selecionado = st.selectbox('Selecione o Candidato', candidatos)
+
+votos_filtrados_cand = df_grouped_bairros_cand[df_grouped_bairros_cand['NM_VOTAVEL'] == candidato_selecionado]
+
+dados_geo = shapefile.merge(votos_filtrados_cand, on='BAIRRO')
+
+mapa3 = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
+
+choropleth = folium.Choropleth(
+    geo_data=dados,
+    name='choropleth',
+    data=dados,
+    columns=['BAIRRO', 'QT_VOTOS'],
+    key_on='feature.properties.BAIRRO',
+    fill_color='YlOrRd',
+    fill_opacity=0.9,
+    line_opacity=0.2,
+    legend_name='Quantidade de Votos'
+).add_to(mapa)
+
+tooltip = GeoJsonTooltip(
+    fields=['BAIRRO', 'QT_VOTOS'],
+    aliases=['Bairro:', 'Quantidade de Votos:'],
+    localize=True
+)
+choropleth.geojson.add_child(tooltip)
+
+mapa.save('mapa2.html')
+
+# Exibição
+st.components.v1.html(open('mapa2.html', 'r').read(), height=600)
 
