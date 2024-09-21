@@ -354,9 +354,9 @@ dados_geo = shapefile.merge(votos_filtrados_cand, on='BAIRRO')
 mapa3 = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
 
 choropleth = folium.Choropleth(
-    geo_data=dados,
+    geo_data=dados_geo,
     name='choropleth',
-    data=dados,
+    data=dados_geo,
     columns=['BAIRRO', 'QT_VOTOS'],
     key_on='feature.properties.BAIRRO',
     fill_color='YlOrRd',
