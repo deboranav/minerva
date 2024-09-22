@@ -103,7 +103,7 @@ df = df[df['DS_CARGO'] == cargo]
 
 ## Grafico 0 ##
 if cargo == 'VEREADOR':
-    df_top15_ver = df.groupby(['NM_VOTAVEL','SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
+    df_top15_ver = df.groupby(['NM_VOTAVEL','SG_PARTIDO','LEGENDA'])['QT_VOTOS'].sum().reset_index()
     df_top15_ver = df_top15_ver[df_top15_ver['LEGENDA'] == 0]
     df_top15_ver = df_top15_ver.sort_values(by='QT_VOTOS', ascending=False).head(15)
 
