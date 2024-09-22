@@ -119,6 +119,30 @@ if cargo == 'VEREADOR':
      )
     st.plotly_chart(fig0)
 
+if cargo == 'PREFEITO':
+    df_top4_pref = df.groupby(['NM_VOTAVEL','SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
+    df_top4_pref = df_top4_pref[df_top4_pref['NM_VOTAVEL'] != 'VOTO NULO']
+    df_top4_pref = df_top4_pref[df_top4_pref['NM_VOTAVEL'] != 'VOTO BRANCO']
+
+    df_top4_pref = df_top4_pref.sort_values(by='QT_VOTOS', ascending=False).head(4)
+
+    total_votos = df_top4_pref['QT_VOTOS'].sum()
+
+    df_top4_pref['PERCENTUAL_VOTOS'] = (df_top4_pref['QT_VOTOS'] / total_votos) * 100
+
+    fig = px.bar(
+    df_top4_pref, 
+    x='NM_VOTAVEL', 
+    y='PERCENTUAL_VOTOS', 
+    title=f'Top 4 Candidatos a prefeito mais votados - {year}',
+    color='SG_PARTIDO',
+    color_discrete_map=cores_partidos,  
+    labels={'PERCENTUAL_VOTOS': 'Porcentagem de Votos (%)', 'NM_VOTAVEL': 'Candidato'}
+    )
+
+# Exibir o gráfico no Streamlit
+    st.plotly_chart(fig0)
+
 ## Gráfico 1 - Paridos x Zona ##
 
 df_grouped_part = df.groupby(['NR_ZONA', 'SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
