@@ -101,6 +101,22 @@ st.title(f'Dados Eleitorais - {year}')
 df = df_init[df_init['ANO_ELEICAO'] == year]
 df = df[df['DS_CARGO'] == cargo]
 
+## Grafico 0 ##
+if cargo == 'VEREADOR':
+    df_top15_ver = df.groupby(['NM_VOTAVEL','SG_PARTIDO'])['QT_VOTOS'].sum().reset_index
+    df_top15_ver = df_top15_ver.sort_values(by='QT_VOTOS', ascending=False).head(15)
+
+    fig0 = px.bar(
+    df_top15_ver, 
+    x='NM_VOTAVEL', 
+    y='QT_VOTOS', 
+    title=f'Candidatos a vereador mais votados em {year}',
+    color='SG_PARTIDO',
+    color_discrete_map=cores_partidos,
+    labels={'QT_VOTOS': 'Total de Votos', 'NM_VOTAVEL': 'Candidato'},
+     )
+    st.plotly_chart(fig0)
+
 ## Gráfico 1 - Paridos x Zona ##
 
 df_grouped_part = df.groupby(['NR_ZONA', 'SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
