@@ -130,7 +130,7 @@ if cargo == 'PREFEITO':
 
     df_top4_pref['PERCENTUAL_VOTOS'] = (df_top4_pref['QT_VOTOS'] / total_votos) * 100
 
-    fig = px.bar(
+    fig0 = px.bar(
     df_top4_pref, 
     x='NM_VOTAVEL', 
     y='PERCENTUAL_VOTOS', 
