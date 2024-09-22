@@ -7,7 +7,7 @@ cores_partidos = {
     'PODE': '#ffcc99',
     'PSL': '#c2c2f0',
     'PT': '#ff6666',
-    'PDT': '#c4e17f',
+    'PDT': '#0D47A1',
     'PP': '#ffb3e6',
     'PTB': '#ffccff',
     'PC do B': '#c4baff',
