@@ -339,21 +339,22 @@ mapa.save('mapa.html')
 # Exibição
 st.components.v1.html(open('mapa.html', 'r').read(), height=600)
 
+if cargo == 'VEREADOR':
 ## Grafico candidato vereador ##
 
-st.title('Distribuição de votos em candidatos por bairro')
+    st.title('Distribuição de votos em candidatos por bairro')
 
-df_grouped_bairros_candidato = df.groupby(['BAIRRO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
-df_grouped_bairros_candidato.dropna(subset=['BAIRRO'], inplace=True)
-candidatos = df_grouped_bairros_candidato['NM_VOTAVEL'].unique()
-candidato_selecionado = st.selectbox('Selecione o candidato', candidatos)
+    df_grouped_bairros_candidato = df.groupby(['BAIRRO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
+    df_grouped_bairros_candidato.dropna(subset=['BAIRRO'], inplace=True)
+    candidatos = df_grouped_bairros_candidato['NM_VOTAVEL'].unique()
+    candidato_selecionado = st.selectbox('Selecione o candidato', candidatos)
 
-votos_filtrados_candidato = df_grouped_bairros_candidato[df_grouped_bairros_candidato['NM_VOTAVEL'] == candidato_selecionado]
-dados_candidato = shapefile.merge(votos_filtrados_candidato, on='BAIRRO')
+    votos_filtrados_candidato = df_grouped_bairros_candidato[df_grouped_bairros_candidato['NM_VOTAVEL'] == candidato_selecionado]
+    dados_candidato = shapefile.merge(votos_filtrados_candidato, on='BAIRRO')
 
 
-mapa_c = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
-choropleth_c = folium.Choropleth(
+    mapa_c = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
+    choropleth_c = folium.Choropleth(
     geo_data=dados_candidato,
     name='choropleth',
     data=dados_candidato,
@@ -363,17 +364,17 @@ choropleth_c = folium.Choropleth(
     fill_opacity=0.9,
     line_opacity=0.2,
     legend_name='Quantidade de Votos por Candidato'
-).add_to(mapa_c)
+    ).add_to(mapa_c)
 
-tooltip_c = GeoJsonTooltip(
+    tooltip_c = GeoJsonTooltip(
     fields=['BAIRRO', 'QT_VOTOS'],
     aliases=['Bairro:', 'Quantidade de Votos:'],
     localize=True
-)
-choropleth_c.geojson.add_child(tooltip_c) #
+    )
+    choropleth_c.geojson.add_child(tooltip_c) #
 
-mapa_c.save('mapa_c.html')
-st.components.v1.html(open('mapa_c.html', 'r').read(), height=600)
+    mapa_c.save('mapa_c.html')
+    st.components.v1.html(open('mapa_c.html', 'r').read(), height=600)
 
 
 
