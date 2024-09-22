@@ -115,6 +115,7 @@ if cargo == 'VEREADOR':
     color='SG_PARTIDO',
     color_discrete_map=cores_partidos,
     labels={'QT_VOTOS': 'Total de Votos', 'NM_VOTAVEL': 'Candidato'},
+    category_orders={"NM_VOTAVEL": df_top15_ver['NM_VOTAVEL']}
      )
     st.plotly_chart(fig0)
 
