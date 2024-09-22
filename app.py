@@ -120,9 +120,10 @@ if cargo == 'VEREADOR':
     st.plotly_chart(fig0)
 
 if cargo == 'PREFEITO':
-    df_top4_pref = df.groupby(['NM_VOTAVEL','SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
-    df_top4_pref = df_top4_pref[df_top4_pref['NM_VOTAVEL'] != 'VOTO NULO']
+    df_top4_pref = df[df['NM_VOTAVEL'] != 'VOTO NULO']
     df_top4_pref = df_top4_pref[df_top4_pref['NM_VOTAVEL'] != 'VOTO BRANCO']
+
+    df_top4_pref = df.groupby(['NM_VOTAVEL','SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
 
     df_top4_pref = df_top4_pref.sort_values(by='QT_VOTOS', ascending=False).head(4)
 
