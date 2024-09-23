@@ -405,7 +405,7 @@ if cargo == 'VEREADOR':
 
     st.title('Distribuição de votos em candidatos por bairro')
 
-    df_grouped_bairros_candidato = df.groupby(['BAIRRO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
+    df_grouped_bairros_candidato = df.groupby(['BAIRRO', 'NM_VOTAVEL', 'SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
     df_grouped_bairros_candidato.dropna(subset=['BAIRRO'], inplace=True)
 
     df_grouped_bairros_candidato['CANDIDATO_PARTIDO'] = df_grouped_bairros_candidato['NM_VOTAVEL'] + ' - ' + df_grouped_bairros_candidato['SG_PARTIDO']
