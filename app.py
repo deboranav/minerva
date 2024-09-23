@@ -153,11 +153,11 @@ zonas_unicas = df_grouped_part['NR_ZONA'].unique()
 zona_selecionada = st.selectbox('Selecione a Zona Eleitoral', zonas_unicas)
 
 df_filtrado_part = df_grouped_part[df_grouped_part['NR_ZONA'] == zona_selecionada]
-df_eleitorado = df.groupby(['NR_ZONA'])['QT_VOTOS'].sum().reset_index()
+#df_eleitorado = df.groupby(['NR_ZONA'])['QT_VOTOS'].sum().reset_index()
 
-df_total_votos_zona = df_eleitorado[df_eleitorado['NR_ZONA'] == zona_selecionada]
+#df_total_votos_zona = df_eleitorado[df_eleitorado['NR_ZONA'] == zona_selecionada]
 
-total_votos_zona = df_total_votos_zona['QT_VOTOS']
+total_votos_zona = df_filtrado_part['QT_VOTOS'].sum().reset_index()
 # Ordenar os partidos 
 df_top6_part = df_filtrado_part.sort_values(by='QT_VOTOS', ascending=False).head(6)
 
@@ -203,8 +203,8 @@ with col3:
     st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
 
 st.markdown(f"""
-<div style="font-size:24px; font-weight:bold; color:blue;">
-    🗳️ Total de votos na zona {zona_selecionada}: <span style="color:green;">{total_votos_zona}</span>
+<div style="font-size:24px; font-weight:bold;">
+    🗳️ Total de votos na zona {zona_selecionada}: <span>{total_votos_zona}</span>
 </div>
 """, unsafe_allow_html=True)
 
