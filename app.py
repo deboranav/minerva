@@ -157,7 +157,7 @@ df_filtrado_part = df_grouped_part[df_grouped_part['NR_ZONA'] == zona_selecionad
 
 #df_total_votos_zona = df_eleitorado[df_eleitorado['NR_ZONA'] == zona_selecionada]
 
-total_votos_zona = df_filtrado_part['QT_VOTOS'].sum().reset_index()
+total_votos_zona = df_filtrado_part['QT_VOTOS'].sum()
 # Ordenar os partidos 
 df_top6_part = df_filtrado_part.sort_values(by='QT_VOTOS', ascending=False).head(6)
 
