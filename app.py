@@ -279,14 +279,10 @@ st.title('Bairros com mais voto por candidato')
 
 df_top_bairros['CANDIDATO_PARTIDO'] = df_top_bairros['NM_VOTAVEL'] + ' - ' + df_top_bairros['SG_PARTIDO']
 
-# Dropdown para selecionar o candidato com partido
 cand_unicos = df_top_bairros['CANDIDATO_PARTIDO'].unique()
 candpart_selecionado = st.selectbox('Selecione o Candidato', cand_unicos)
 
 cand_selecionado, cand_partido = candpart_selecionado.split(' - ')
-# Dropdown para selecionar a zona eleitoral
-##cand_unicos = df_top_bairros['NM_VOTAVEL'].unique()
-#cand_selecionado = st.selectbox('Selecione o Candidato', cand_unicos)
 
 df_filtrado_top_bairros = df_top_bairros[df_top_bairros['NM_VOTAVEL'] == cand_selecionado]
 
@@ -411,8 +407,16 @@ if cargo == 'VEREADOR':
 
     df_grouped_bairros_candidato = df.groupby(['BAIRRO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
     df_grouped_bairros_candidato.dropna(subset=['BAIRRO'], inplace=True)
-    candidatos = df_grouped_bairros_candidato['NM_VOTAVEL'].unique()
-    candidato_selecionado = st.selectbox('Selecione o candidato', candidatos)
+
+    df_grouped_bairros_candidato['CANDIDATO_PARTIDO'] = df_grouped_bairros_candidato['NM_VOTAVEL'] + ' - ' + df_grouped_bairros_candidato['SG_PARTIDO']
+
+    candidatos = df_grouped_bairros_candidato['CANDIDATO_PARTIDO'].unique()
+    candidatoP_selecionado = st.selectbox('Selecione o Candidato', candidatos)
+
+    candidato_selecionado, c_partido = candidatoP_selecionado.split(' - ')
+
+    #candidatos = df_grouped_bairros_candidato['NM_VOTAVEL'].unique()
+    #candidato_selecionado = st.selectbox('Selecione o candidato', candidatos)
 
     votos_filtrados_candidato = df_grouped_bairros_candidato[df_grouped_bairros_candidato['NM_VOTAVEL'] == candidato_selecionado]
     dados_candidato = shapefile.merge(votos_filtrados_candidato, on='BAIRRO')
