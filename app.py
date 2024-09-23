@@ -462,10 +462,14 @@ elif cargo == 'PREFEITO':
 
     df_vencedor_pref = df_grouped_prefbairros[df_grouped_prefbairros['rank'] == 1]
 
-    df_final_ver = df_max_votos_ver.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
-    df_final_ver = df_final_ver.merge(df_third_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_third'))
+    df_final_pref = df_vencedor_pref.merge(df_max_votos_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_first'))
+    df_final_pref = df_final_pref.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
+    df_final_pref = df_final_pref.merge(df_third_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_third'))
     
-    df_final_pref = df_final_ver.merge(df_vencedor_pref[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_pref'))
+    #df_final_ver = df_max_votos_ver.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
+    #df_final_ver = df_final_ver.merge(df_third_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_third'))
+    
+    #df_final_pref = df_final_ver.merge(df_vencedor_pref[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_pref'))
    
     # Carrega o shapefile 
     dados_geoespaciais_2 = shapefile.merge(df_final_pref, on='BAIRRO')
@@ -476,7 +480,7 @@ elif cargo == 'PREFEITO':
     dados_geoespaciais_2,
     style_function=estilo_bairro,
     tooltip=GeoJsonTooltip(
-        fields=['BAIRRO', 'NM_VOTAVEL_pref', 'QT_VOTOS_pref', 'SG_PARTIDO_pref','NM_VOTAVEL', 'QT_VOTOS', 'SG_PARTIDO', 'NM_VOTAVEL_second', 'QT_VOTOS_second','SG_PARTIDO_second', 'NM_VOTAVEL_third', 'QT_VOTOS_third', 'SG_PARTIDO_third'],
+        fields=['BAIRRO', 'NM_VOTAVEL', 'QT_VOTOS', 'SG_PARTIDO','NM_VOTAVEL_first', 'QT_VOTOS_first', 'SG_PARTIDO_first', 'NM_VOTAVEL_second', 'QT_VOTOS_second','SG_PARTIDO_second', 'NM_VOTAVEL_third', 'QT_VOTOS_third', 'SG_PARTIDO_third'],
         aliases=['Bairro:', 'Prefeito vencedor:', 'Votos do Vencedor:', 'Partido:', '1º Lugar Vereador:', 'Votos:', 'Partido:', '2º Lugar Vereador:', 'Votos:', 'Partido:', '3º Lugar Vereador:', 'Votos:', 'Partido:'],
         localize=True
     )
