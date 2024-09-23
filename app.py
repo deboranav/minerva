@@ -100,7 +100,7 @@ st.set_page_config(layout="wide")
 st.sidebar.markdown("""
     <style>
     .sidebar-container {
-        background-color: #121212;
+        background-color: #0E1117;
         padding: 15px;
         margin-bottom: 15px;
         border-radius: 10px;
