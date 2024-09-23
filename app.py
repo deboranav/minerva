@@ -96,7 +96,7 @@ st.set_page_config(layout="wide")
 cargo = st.sidebar.radio("Escolha o cargo", ["PREFEITO", "VEREADOR"], horizontal=True)
 year = st.sidebar.selectbox("Ano", df_init["ANO_ELEICAO"].unique())
 
-st.title(f'Dados Eleitorais - {year}')
+st.title(f'Dados Eleitorais - {cargo} - {year}')
 
 df = df_init[df_init['ANO_ELEICAO'] == year]
 df = df[df['DS_CARGO'] == cargo]
@@ -134,7 +134,7 @@ if cargo == 'PREFEITO':
     df_top4_pref, 
     x='NM_VOTAVEL', 
     y='PERCENTUAL_VOTOS', 
-    title=f'Top 4 Candidatos a prefeito mais votados - {year}',
+    title=f'Top 4 Candidatos a prefeito mais votados - {year} (votos válidos)',
     color='SG_PARTIDO',
     color_discrete_map=cores_partidos,  
     labels={'PERCENTUAL_VOTOS': 'Porcentagem de Votos (%)', 'QT_VOTOS': 'Votos', 'NM_VOTAVEL': 'Candidato'}
