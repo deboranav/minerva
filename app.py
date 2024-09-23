@@ -105,7 +105,7 @@ st.sidebar.markdown("""
         margin-bottom: 15px;
         border-radius: 10px;
         box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
-        opacity: 0.6;
+        opacity: 0.5;
     }
     .sidebar-title {
         font-size: 18px;
@@ -122,7 +122,7 @@ st.sidebar.markdown("""
 
 # Containers estilizados para os componentes da sidebar
 with st.sidebar:
-    #st.markdown('<div class="sidebar-container">', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-container">', unsafe_allow_html=True)
     st.markdown('<div class="sidebar-title">Escolha o cargo</div>', unsafe_allow_html=True)
     cargo = st.radio("", ["PREFEITO", "VEREADOR"], horizontal=True)
     st.markdown('</div>', unsafe_allow_html=True)
