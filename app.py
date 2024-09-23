@@ -440,10 +440,10 @@ elif cargo == 'PREFEITO':
 
     df_vencedor_pref = df_grouped_prefbairros[df_grouped_prefbairros['rank'] == 1]
 
-    df_final_ver = df_max_votos_ver.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='NM_BAIRRO', suffixes=('', '_second'))
-    df_final_ver = df_final_ver.merge(df_third_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='NM_BAIRRO', suffixes=('', '_third'))
+    df_final_ver = df_max_votos_ver.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
+    df_final_ver = df_final_ver.merge(df_third_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_third'))
     
-    df_final_pref = df_final_ver.merge(df_vencedor_pref[['NM_BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='NM_BAIRRO', suffixes=('', '_pref'))
+    df_final_pref = df_final_ver.merge(df_vencedor_pref[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_pref'))
    
     # Carrega o shapefile 
     dados_geoespaciais_2 = shapefile.merge(df_final, on='BAIRRO')
