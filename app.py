@@ -446,7 +446,7 @@ elif cargo == 'PREFEITO':
     df_final_pref = df_final_ver.merge(df_vencedor_pref[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_pref'))
    
     # Carrega o shapefile 
-    dados_geoespaciais_2 = shapefile.merge(df_final, on='BAIRRO')
+    dados_geoespaciais_2 = shapefile.merge(df_final_pref, on='BAIRRO')
     mapa_pref = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
 
     # Adicionar a camada de GeoJSON com as cores
@@ -476,7 +476,7 @@ elif cargo == 'PREFEITO':
 
         legend_html += '</div>'
 
-    #mapa_pref.get_root().html.add_child(folium.Element(legend_html))
+    mapa_pref.get_root().html.add_child(folium.Element(legend_html))
     mapa_pref.save('mapa_prefeito_vereadores.html')
 
     # Exibição
