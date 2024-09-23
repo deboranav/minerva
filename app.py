@@ -476,7 +476,7 @@ elif cargo == 'PREFEITO':
 
         legend_html += '</div>'
 
-    mapa_pref.get_root().html.add_child(folium.Element(legend_html))
+    #mapa_pref.get_root().html.add_child(folium.Element(legend_html))
     mapa_pref.save('mapa_prefeito_vereadores.html')
 
     # Exibição
