@@ -122,7 +122,7 @@ st.sidebar.markdown("""
 
 # Containers estilizados para os componentes da sidebar
 with st.sidebar:
-    st.markdown('<div class="sidebar-container">', unsafe_allow_html=True)
+    #st.markdown('<div class="sidebar-container">', unsafe_allow_html=True)
     st.markdown('<div class="sidebar-title">Escolha o cargo</div>', unsafe_allow_html=True)
     cargo = st.radio("", ["PREFEITO", "VEREADOR"], horizontal=True)
     st.markdown('</div>', unsafe_allow_html=True)
@@ -131,7 +131,6 @@ with st.sidebar:
     st.markdown('<div class="sidebar-title">Ano</div>', unsafe_allow_html=True)
     year = st.selectbox("", df_init["ANO_ELEICAO"].unique())
     st.markdown('</div>', unsafe_allow_html=True)
-
 
 st.title(f'Dados Eleitorais - {cargo} - {year}')
 
