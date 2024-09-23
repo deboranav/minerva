@@ -469,7 +469,7 @@ elif cargo == 'PREFEITO':
 
     df_vencedor_pref = df_grouped_prefbairros[df_grouped_prefbairros['rank'] == 1]
 
-    qttotal_votos = df_vencedor_pref.groupby[('SG_PARTIDO','NM_VOTAVEL')]['QT_VOTOS'].sum().reset_index()
+    #qttotal_votos = df_vencedor_pref.groupby[('SG_PARTIDO','NM_VOTAVEL')]['QT_VOTOS'].sum().reset_index()
 
     df_final_pref = df_vencedor_pref.merge(df_max_votos_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_first'))
     df_final_pref = df_final_pref.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
