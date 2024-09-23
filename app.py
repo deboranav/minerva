@@ -93,8 +93,44 @@ df_init['BAIRRO'] = df_init['BAIRRO'].map(mapeamento_bairros)
 
 # Organização layout
 st.set_page_config(layout="wide")
-cargo = st.sidebar.radio("Escolha o cargo", ["PREFEITO", "VEREADOR"], horizontal=True)
-year = st.sidebar.selectbox("Ano", df_init["ANO_ELEICAO"].unique())
+#cargo = st.sidebar.radio("Escolha o cargo", ["PREFEITO", "VEREADOR"], horizontal=True)
+#year = st.sidebar.selectbox("Ano", df_init["ANO_ELEICAO"].unique())
+
+# CSS para estilizar a sidebar
+st.sidebar.markdown("""
+    <style>
+    .sidebar-container {
+        background-color: #f0f0f5;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+    }
+    .sidebar-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+    .sidebar-selectbox {
+        font-size: 16px;
+        margin-top: 5px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# Containers estilizados para os componentes da sidebar
+with st.sidebar:
+    st.markdown('<div class="sidebar-container">', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-title">Escolha o cargo</div>', unsafe_allow_html=True)
+    cargo = st.radio("", ["PREFEITO", "VEREADOR"], horizontal=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('<div class="sidebar-container">', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-title">Ano</div>', unsafe_allow_html=True)
+    year = st.selectbox("", df_init["ANO_ELEICAO"].unique())
+    st.markdown('</div>', unsafe_allow_html=True)
+
 
 st.title(f'Dados Eleitorais - {cargo} - {year}')
 
