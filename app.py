@@ -109,7 +109,7 @@ st.sidebar.markdown("""
     .sidebar-title {
         font-size: 18px;
         font-weight: bold;
-        color: #333;
+        color: #000;
         margin-bottom: 10px;
     }
     .sidebar-selectbox {
