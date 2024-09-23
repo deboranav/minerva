@@ -153,8 +153,11 @@ zonas_unicas = df_grouped_part['NR_ZONA'].unique()
 zona_selecionada = st.selectbox('Selecione a Zona Eleitoral', zonas_unicas)
 
 df_filtrado_part = df_grouped_part[df_grouped_part['NR_ZONA'] == zona_selecionada]
-total_votos_zona = df_filtrado_part['QT_VOTOS'].sum()
+df_eleitorado = df.groupby(['NR_ZONA'])['QT_VOTOS'].sum().reset_index()
 
+df_total_votos_zona = zona_selecionada[df_eleitorado['NR_ZONA'] == zona_selecionada]
+
+total_votos_zona = df_total_votos_zona['QT_VOTOS']
 # Ordenar os partidos 
 df_top6_part = df_filtrado_part.sort_values(by='QT_VOTOS', ascending=False).head(6)
 
