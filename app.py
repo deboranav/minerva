@@ -425,6 +425,8 @@ elif cargo == 'PREFEITO':
     df_ver = df_ver[df_ver['DS_CARGO'] == 'VEREADOR']
     df_ver = df_ver.groupby(['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'LEGENDA'])['QT_VOTOS'].sum().reset_index()
     df_ver = df_ver[df_ver['LEGENDA'] == 0]
+    df_ver = df_ver[df_ver['NM_VOTAVEL'] != 'VOTO NULO']
+    df_ver = df_ver[df_ver['NM_VOTAVEL'] != 'VOTO BRANCO']
 
     df_grouped_prefbairros = df.groupby(['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
     #df_grouped_bairros.dropna(subset=['BAIRRO'], inplace=True)
