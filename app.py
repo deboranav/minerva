@@ -153,9 +153,6 @@ zonas_unicas = df_grouped_part['NR_ZONA'].unique()
 zona_selecionada = st.selectbox('Selecione a Zona Eleitoral', zonas_unicas)
 
 df_filtrado_part = df_grouped_part[df_grouped_part['NR_ZONA'] == zona_selecionada]
-#df_eleitorado = df.groupby(['NR_ZONA'])['QT_VOTOS'].sum().reset_index()
-
-#df_total_votos_zona = df_eleitorado[df_eleitorado['NR_ZONA'] == zona_selecionada]
 
 df_votos_zona = df.groupby(['NR_ZONA'])['QT_VOTOS'].sum().reset_index()
 total_votos_zona = df_votos_zona[df_votos_zona['NR_ZONA'] == zona_selecionada]['QT_VOTOS'].values[0]
@@ -281,7 +278,7 @@ df_top_bairros = df_top_bairros[df_top_bairros['LEGENDA'] == 0]
 st.title('Bairros com mais voto por candidato')
 
 # Dropdown para selecionar a zona eleitoral
-cand_unicos = df_top_bairros['NM_VOTAVEL'].unique()
+cand_unicos = df_top_bairros['NM_VOTAVEL']['SG_PARTIDO'].unique()
 cand_selecionado = st.selectbox('Selecione o Candidato', cand_unicos)
 
 df_filtrado_top_bairros = df_top_bairros[df_top_bairros['NM_VOTAVEL'] == cand_selecionado]
@@ -449,7 +446,6 @@ elif cargo == 'PREFEITO':
     df_ver = df_ver[df_ver['NM_VOTAVEL'] != 'VOTO BRANCO']
 
     df_grouped_prefbairros = df.groupby(['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
-    #df_grouped_bairros.dropna(subset=['BAIRRO'], inplace=True)
 
     # Partido com mais votos em cada bairro
     df_grouped_prefbairros['rank'] = df_grouped_prefbairros.groupby('BAIRRO')['QT_VOTOS'].rank(method='first', ascending=False)
@@ -465,17 +461,10 @@ elif cargo == 'PREFEITO':
     df_final_pref = df_vencedor_pref.merge(df_max_votos_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_first'))
     df_final_pref = df_final_pref.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
     df_final_pref = df_final_pref.merge(df_third_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_third'))
-    
-    #df_final_ver = df_max_votos_ver.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
-    #df_final_ver = df_final_ver.merge(df_third_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_third'))
-    
-    #df_final_pref = df_final_ver.merge(df_vencedor_pref[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_pref'))
-   
-    # Carrega o shapefile 
+     
     dados_geoespaciais_2 = shapefile.merge(df_final_pref, on='BAIRRO')
     mapa_pref = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
 
-    # Adicionar a camada de GeoJSON com as cores
     geojson = GeoJson(
     dados_geoespaciais_2,
     style_function=estilo_bairro,
