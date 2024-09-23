@@ -117,6 +117,7 @@ if cargo == 'VEREADOR':
     labels={'QT_VOTOS': 'Total de Votos', 'NM_VOTAVEL': 'Candidato'},
     category_orders={"NM_VOTAVEL": df_top15_ver['NM_VOTAVEL']}
      )
+    
     st.plotly_chart(fig0)
 
 if cargo == 'PREFEITO':
@@ -139,7 +140,6 @@ if cargo == 'PREFEITO':
     labels={'PERCENTUAL_VOTOS': 'Porcentagem de Votos (%)', 'QT_VOTOS': 'Votos', 'NM_VOTAVEL': 'Candidato'}
     )
 
-# Exibir o gráfico no Streamlit
     st.plotly_chart(fig0)
 
 ## Gráfico 1 - Paridos x Zona ##
@@ -416,6 +416,71 @@ if cargo == 'VEREADOR':
 
     mapa_c.save('mapa_c.html')
     st.components.v1.html(open('mapa_c.html', 'r').read(), height=600)
+
+if cargo == 'PREFEITO':
+    ## Gráfico 3 ##
+    st.title('Candidato mais votados por Bairro')
+
+    df_ver = df_init[df_init['ANO_ELEICAO'] == year]
+    df_ver = df_ver[df_ver['DS_CARGO'] == 'VEREADOR']
+    df_ver = df_ver.groupby(['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'LEGENDA'])['QT_VOTOS'].sum().reset_index()
+    df_ver = df_ver[df_ver['LEGENDA'] == 0]
+
+    df_grouped_prefbairros = df.groupby(['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL'])['QT_VOTOS'].sum().reset_index()
+    #df_grouped_bairros.dropna(subset=['BAIRRO'], inplace=True)
+
+    # Partido com mais votos em cada bairro
+    df_grouped_prefbairros['rank'] = df_grouped_prefbairros.groupby('BAIRRO')['QT_VOTOS'].rank(method='first', ascending=False)
+    df_ver['rank'] = df_ver.groupby('BAIRRO')['QT_VOTOS'].rank(method='first', ascending=False)
+
+    # Partido mais votado (rank 1) e o segundo mais votado (rank 2)
+    df_max_votos_ver = df_ver[df_ver['rank'] == 1]
+    df_second_place_ver = df_ver[df_ver['rank'] == 2]
+    df_third_place_ver = df_ver[df_ver['rank'] == 3]
+
+    df_vencedor_pref = df_grouped_prefbairros[df_grouped_prefbairros['rank'] == 1]
+
+    df_final_ver = df_max_votos_ver.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='NM_BAIRRO', suffixes=('', '_second'))
+    df_final_ver = df_final_ver.merge(df_third_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='NM_BAIRRO', suffixes=('', '_third'))
+    
+    df_final_pref = df_final_ver.merge(df_vencedor_pref[['NM_BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='NM_BAIRRO', suffixes=('', '_pref'))
+   
+    # Carrega o shapefile 
+    dados_geoespaciais_2 = shapefile.merge(df_final, on='BAIRRO')
+    mapa_pref = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
+
+    # Adicionar a camada de GeoJSON com as cores
+    geojson = GeoJson(
+    dados_geoespaciais_2,
+    style_function=estilo_bairro,
+    tooltip=GeoJsonTooltip(
+        fields=['BAIRRO', 'NM_VOTAVEL_pref', 'QT_VOTOS_pref', 'NM_VOTAVEL', 'QT_VOTOS', 'NM_VOTAVEL_second', 'QT_VOTOS_second', 'NM_VOTAVEL_third', 'QT_VOTOS_third'],
+        aliases=['Bairro:', 'Prefeito vencedor:', 'Votos do Vencedor:', '1º Lugar Vereador:', 'Votos:', '2º Lugar Vereador:', 'Votos:', '3º Lugar Vereador:', 'Votos:'],
+        localize=True
+    )
+    ).add_to(mapa_pref)
+
+    # Legenda com base nos partidos do dataframe
+    partidos_presentes = df_final['SG_PARTIDO'].unique()
+    legend_html = '''
+    <div style="position: fixed;
+            bottom: 50px; left: 50px; width: 200px; height: auto;
+            border:2px solid grey; z-index:9999; font-size:14px;
+            background-color:white; padding: 10px;">
+    &nbsp; <b>Legenda - Candidato Mais Votado</b> <br>
+    '''
+
+    for partido in partidos_presentes:
+        cor = cores_partidos.get(partido, '#000000')  
+        legend_html += f'&nbsp; <i style="background:{cor};width:10px;height:10px;display:inline-block;"></i>&nbsp; {partido} <br>'
+
+        legend_html += '</div>'
+
+    mapa_pref.get_root().html.add_child(folium.Element(legend_html))
+    mapa_pref.save('mapa_prefeito_vereadores.html')
+
+    # Exibição
+    st.components.v1.html(open('mapa_prefeito_vereadores.html', 'r').read(), height=600)
 
 
 
