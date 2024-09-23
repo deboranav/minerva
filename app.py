@@ -316,6 +316,8 @@ df_second_place = df_grouped_bairros[df_grouped_bairros['rank'] == 2]
 
 df_final = df_max_votos.merge(df_second_place[['BAIRRO', 'SG_PARTIDO', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
 
+total_votos_partido = df_final.groupby('SG_PARTIDO')['QT_VOTOS'].sum().reset_index()
+
 # Carrega o shapefile 
 dados_geoespaciais = shapefile.merge(df_final, on='BAIRRO')
 mapa = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
@@ -342,7 +344,6 @@ geojson = GeoJson(
 ).add_to(mapa)
 
 # Legenda com base nos partidos do dataframe
-partidos_presentes = df_final['SG_PARTIDO'].unique()
 legend_html = '''
 <div style="position: fixed;
             bottom: 50px; left: 50px; width: 200px; height: auto;
@@ -351,9 +352,12 @@ legend_html = '''
  &nbsp; <b>Legenda - Partido Mais Votado</b> <br>
 '''
 
-for partido in partidos_presentes:
-    cor = cores_partidos.get(partido, '#000000')  
-    legend_html += f'&nbsp; <i style="background:{cor};width:10px;height:10px;display:inline-block;"></i>&nbsp; {partido} <br>'
+# Iterar sobre os partidos e adicionar o total de votos
+for index, row in total_votos_partido.iterrows():
+    partido = row['SG_PARTIDO']
+    votos = row['QT_VOTOS']
+    cor = cores_partidos.get(partido, '#000000')  # Cor do partido
+    legend_html += f'&nbsp; <i style="background:{cor};width:10px;height:10px;display:inline-block;"></i>&nbsp; {partido} - {votos} votos<br>'
 
 legend_html += '</div>'
 
@@ -415,9 +419,6 @@ if cargo == 'VEREADOR':
 
     candidato_selecionado, c_partido = candidatoP_selecionado.split(' - ')
 
-    #candidatos = df_grouped_bairros_candidato['NM_VOTAVEL'].unique()
-    #candidato_selecionado = st.selectbox('Selecione o candidato', candidatos)
-
     votos_filtrados_candidato = df_grouped_bairros_candidato[df_grouped_bairros_candidato['NM_VOTAVEL'] == candidato_selecionado]
     dados_candidato = shapefile.merge(votos_filtrados_candidato, on='BAIRRO')
 
@@ -446,7 +447,6 @@ if cargo == 'VEREADOR':
     st.components.v1.html(open('mapa_c.html', 'r').read(), height=600)
 
 elif cargo == 'PREFEITO':
-    ## Gráfico 3 ##
     st.title('Candidato mais votados por Bairro')
 
     df_ver = df_init[df_init['ANO_ELEICAO'] == year]
