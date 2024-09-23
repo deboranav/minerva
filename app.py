@@ -224,7 +224,7 @@ bairro_selecionado = st.selectbox('Selecione o Bairro', bairros_unicos)
 df_filtrado_part_bairro = df_grouped_part_bairro[df_grouped_part_bairro['BAIRRO'] == bairro_selecionado]
 
 df_votos_bairro = df.groupby(['BAIRRO'])['QT_VOTOS'].sum().reset_index()
-total_votos_bairro = df_votos_bairro[df_votos_bairro['NR_ZONA'] == bairro_selecionado]['QT_VOTOS'].values[0]
+total_votos_bairro = df_votos_bairro[df_votos_bairro['BAIRRO'] == bairro_selecionado]['QT_VOTOS'].values[0]
 # Ordenar os partidos 
 df_top6_part_bairro = df_filtrado_part_bairro.sort_values(by='QT_VOTOS', ascending=False).head(6)
 
