@@ -221,6 +221,7 @@ bairro_selecionado = st.selectbox('Selecione o Bairro', bairros_unicos)
 
 df_filtrado_part_bairro = df_grouped_part_bairro[df_grouped_part_bairro['BAIRRO'] == bairro_selecionado]
 
+total_votos_bairro = df_filtrado_part_bairro['QT_VOTOS'].sum()
 # Ordenar os partidos 
 df_top6_part_bairro = df_filtrado_part_bairro.sort_values(by='QT_VOTOS', ascending=False).head(6)
 
@@ -261,6 +262,12 @@ with col1:
 
 with col2:
     st.plotly_chart(fig4)
+
+st.markdown(f"""
+<div style="font-size:24px; font-weight:bold;">
+    🗳️ Total de votos no bairro {bairro_selecionado}: <span>{total_votos_bairro}</span>
+</div>
+""", unsafe_allow_html=True)
 
 ###
 #### top 10 bairros ###
