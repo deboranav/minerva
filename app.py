@@ -153,6 +153,7 @@ zonas_unicas = df_grouped_part['NR_ZONA'].unique()
 zona_selecionada = st.selectbox('Selecione a Zona Eleitoral', zonas_unicas)
 
 df_filtrado_part = df_grouped_part[df_grouped_part['NR_ZONA'] == zona_selecionada]
+total_votos_zona = df_filtrado_part['QT_VOTOS'].sum()
 
 # Ordenar os partidos 
 df_top6_part = df_filtrado_part.sort_values(by='QT_VOTOS', ascending=False).head(6)
@@ -197,6 +198,12 @@ with col2:
 
 with col3:
     st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
+
+st.markdown(f"""
+<div style="font-size:24px; font-weight:bold; color:blue;">
+    🗳️ Total de votos na zona {zona_selecionada}: <span style="color:green;">{total_votos_zona}</span>
+</div>
+""", unsafe_allow_html=True)
 
 ####
 ## Gráfico 2 - Paridos x BAirro ##
