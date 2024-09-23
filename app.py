@@ -417,7 +417,7 @@ if cargo == 'VEREADOR':
     mapa_c.save('mapa_c.html')
     st.components.v1.html(open('mapa_c.html', 'r').read(), height=600)
 
-if cargo == 'PREFEITO':
+elif cargo == 'PREFEITO':
     ## Gráfico 3 ##
     st.title('Candidato mais votados por Bairro')
 
