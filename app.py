@@ -469,6 +469,8 @@ elif cargo == 'PREFEITO':
 
     df_vencedor_pref = df_grouped_prefbairros[df_grouped_prefbairros['rank'] == 1]
 
+    qttotal_votos = df_vencedor_pref.groupby[('SG_PARTIDO','NM_VOTAVEL')]['QT_VOTOS'].sum().reset_index()
+
     df_final_pref = df_vencedor_pref.merge(df_max_votos_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_first'))
     df_final_pref = df_final_pref.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
     df_final_pref = df_final_pref.merge(df_third_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_third'))
@@ -486,22 +488,23 @@ elif cargo == 'PREFEITO':
     )
     ).add_to(mapa_pref)
 
-    # Legenda com base nos partidos do dataframe
-    partidos_presentes = df_final['SG_PARTIDO'].unique()
     legend_html = '''
-    <div style="position: fixed;
-            bottom: 50px; left: 50px; width: 200px; height: auto;
+<div style="position: fixed;
+            bottom: 50px; left: 50px; width: 250px; height: auto;
             border:2px solid grey; z-index:9999; font-size:14px;
             background-color:white; padding: 10px;">
-    &nbsp; <b>Legenda - Candidato Mais Votado</b> <br>
-    '''
+ &nbsp; <b>Legenda - Candidato Mais Votado</b> <br>
+'''
 
-    for partido in partidos_presentes:
-        cor = cores_partidos.get(partido, '#000000')  
-        legend_html += f'&nbsp; <i style="background:{cor};width:10px;height:10px;display:inline-block;"></i>&nbsp; {partido} <br>'
+# Iterar sobre cada partido e candidato para exibir na legenda
+for _, row in qttotal_votos.iterrows():
+    partido = row['SG_PARTIDO']
+    candidato = row['NM_VOTAVEL']
+    votos = row['QT_VOTOS']
+    cor = cores_partidos.get(partido, '#000000')  # Cor associada ao partido
+    legend_html += f'&nbsp; <i style="background:{cor};width:10px;height:10px;display:inline-block;"></i>&nbsp; {partido} - {candidato} ({votos} votos)<br>'
 
-        legend_html += '</div>'
-
+    legend_html += '</div>'
     mapa_pref.get_root().html.add_child(folium.Element(legend_html))
     mapa_pref.save('mapa_prefeito_vereadores.html')
 
