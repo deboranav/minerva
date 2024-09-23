@@ -473,8 +473,8 @@ elif cargo == 'PREFEITO':
     dados_geoespaciais_2,
     style_function=estilo_bairro,
     tooltip=GeoJsonTooltip(
-        fields=['BAIRRO', 'NM_VOTAVEL_pref', 'QT_VOTOS_pref', 'NM_VOTAVEL', 'QT_VOTOS', 'SG_PARTIDO', 'NM_VOTAVEL_second', 'QT_VOTOS_second','SG_PARTIDO_second' 'NM_VOTAVEL_third', 'QT_VOTOS_third', 'SG_PARTIDO_third'],
-        aliases=['Bairro:', 'Prefeito vencedor:', 'Votos do Vencedor:', '1º Lugar Vereador:', 'Votos:', 'Partido', '2º Lugar Vereador:', 'Votos:', 'Partido', '3º Lugar Vereador:', 'Votos:', 'Partido'],
+        fields=['BAIRRO', 'NM_VOTAVEL_pref', 'QT_VOTOS_pref', 'SG_PARTIDO_pref','NM_VOTAVEL', 'QT_VOTOS', 'SG_PARTIDO', 'NM_VOTAVEL_second', 'QT_VOTOS_second','SG_PARTIDO_second' 'NM_VOTAVEL_third', 'QT_VOTOS_third', 'SG_PARTIDO_third'],
+        aliases=['Bairro:', 'Prefeito vencedor:', 'Votos do Vencedor:', 'Partido:', '1º Lugar Vereador:', 'Votos:', 'Partido:', '2º Lugar Vereador:', 'Votos:', 'Partido:', '3º Lugar Vereador:', 'Votos:', 'Partido:'],
         localize=True
     )
     ).add_to(mapa_pref)
