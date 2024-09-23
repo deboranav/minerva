@@ -278,7 +278,7 @@ df_top_bairros = df_top_bairros[df_top_bairros['LEGENDA'] == 0]
 st.title('Bairros com mais voto por candidato')
 
 # Dropdown para selecionar a zona eleitoral
-cand_unicos = df_top_bairros['NM_VOTAVEL']['SG_PARTIDO'].unique()
+cand_unicos = df_top_bairros['NM_VOTAVEL'].unique()
 cand_selecionado = st.selectbox('Selecione o Candidato', cand_unicos)
 
 df_filtrado_top_bairros = df_top_bairros[df_top_bairros['NM_VOTAVEL'] == cand_selecionado]
