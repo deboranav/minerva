@@ -86,7 +86,7 @@ from folium.features import GeoJsonTooltip, GeoJson
 df_init = pd.read_csv('df_16_20_PREF_VER.csv')
 shapefile = gpd.read_file('data/Limite_Bairros.shp')
 
-# Preparação dataframe >>>> TEM QUE PADRONIZAR OS CARGOS
+# Preparação dataframe 
 df_init.loc[df_init['DS_CARGO'] == 'PREFEITO', 'LEGENDA'] = 0
 df_init.rename(columns={'NM_BAIRRO': 'BAIRRO'}, inplace=True)
 df_init['BAIRRO'] = df_init['BAIRRO'].map(mapeamento_bairros)
@@ -227,16 +227,16 @@ fig2 = px.bar(
 )
 
 # Exibição
-col1, col2, col3 = st.columns([2, 2, 1])
+#col1, col2, col3 = st.columns([2, 2, 1])
 
-with col1:
-    st.plotly_chart(fig)
+#with col1:
+st.plotly_chart(fig)
 
-with col2:
-    st.plotly_chart(fig2)
+#with col2:
+st.plotly_chart(fig2)
 
-with col3:
-    st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
+#with col3:
+st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
 
 st.markdown(f"""
 <div style="font-size:24px; font-weight:bold;">
