@@ -277,7 +277,7 @@ df_grouped_cand_bairro = df_grouped_cand_bairro[df_grouped_cand_bairro['LEGENDA'
 
 df_filtrado_cand_bairro = df_grouped_cand_bairro[df_grouped_cand_bairro['BAIRRO'] == bairro_selecionado]
 
-df_top6_cand_bairro = df_filtrado_cand_bairro.sort_values(by='QT_VOTOS', ascending=False).head(6)
+df_top6_cand_bairro = df_filtrado_cand_bairro.sort_values(by='QT_VOTOS', ascending=False).head(10)
 
 fig4 = px.bar(
     df_top6_cand_bairro, 
@@ -306,7 +306,7 @@ if cargo == 'VEREADOR':
     st.plotly_chart(fig4)
 else: 
      st.plotly_chart(fig4)
-     
+
 st.markdown(f"""
 <div style="font-size:24px; font-weight:bold;">
     🗳️ Total de votos no bairro {bairro_selecionado}: <span>{total_votos_bairro}</span>
