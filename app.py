@@ -214,7 +214,7 @@ df_grouped_cand = df_grouped_cand[df_grouped_cand['LEGENDA'] == 0]
 
 df_filtrado_cand = df_grouped_cand[df_grouped_cand['NR_ZONA'] == zona_selecionada]
 
-df_top6_cand = df_filtrado_cand.sort_values(by='QT_VOTOS', ascending=False).head(6)
+df_top6_cand = df_filtrado_cand.sort_values(by='QT_VOTOS', ascending=False).head(10)
 
 fig2 = px.bar(
     df_top6_cand, 
