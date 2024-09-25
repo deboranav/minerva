@@ -75,6 +75,16 @@ mapeamento_bairros = {
 }
 #### 
 
+def estilo_bairro(feature):
+    partido = feature['properties']['SG_PARTIDO']
+    return {
+        'fillColor': cores_partidos.get(partido, '#000000'),  
+        'color': 'black',
+        'weight': 1,
+        'fillOpacity': 0.7,
+        'lineOpacity': 0.2
+    }
+
 import pandas as pd
 import streamlit as st
 import plotly.express as px
@@ -363,16 +373,6 @@ total_votos_partido = df_final.groupby('SG_PARTIDO')['QT_VOTOS'].sum().reset_ind
 dados_geoespaciais = shapefile.merge(df_final, on='BAIRRO')
 mapa = folium.Map(location=[-5.79448, -35.211], zoom_start=12, tiles='cartodb positron')
 
-def estilo_bairro(feature):
-    partido = feature['properties']['SG_PARTIDO']
-    return {
-        'fillColor': cores_partidos.get(partido, '#000000'),  
-        'color': 'black',
-        'weight': 1,
-        'fillOpacity': 0.7,
-        'lineOpacity': 0.2
-    }
-
 # Adicionar a camada de GeoJSON com as cores
 geojson = GeoJson(
     dados_geoespaciais,
@@ -397,7 +397,7 @@ legend_html = '''
 for index, row in total_votos_partido.iterrows():
     partido = row['SG_PARTIDO']
     votos = row['QT_VOTOS']
-    cor = cores_partidos.get(partido, '#000000')  # Cor do partido
+    cor = cores_partidos.get(partido, '#000000')  
     legend_html += f'&nbsp; <i style="background:{cor};width:10px;height:10px;display:inline-block;"></i>&nbsp; {partido} - {votos} votos<br>'
 
 legend_html += '</div>'
@@ -509,8 +509,6 @@ elif cargo == 'PREFEITO':
     df_third_place_ver = df_ver[df_ver['rank'] == 3]
 
     df_vencedor_pref = df_grouped_prefbairros[df_grouped_prefbairros['rank'] == 1]
-
-    #qttotal_votos = df_vencedor_pref.groupby[('SG_PARTIDO','NM_VOTAVEL')]['QT_VOTOS'].sum().reset_index()
 
     df_final_pref = df_vencedor_pref.merge(df_max_votos_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_first'))
     df_final_pref = df_final_pref.merge(df_second_place_ver[['BAIRRO', 'SG_PARTIDO', 'NM_VOTAVEL', 'QT_VOTOS']], on='BAIRRO', suffixes=('', '_second'))
