@@ -268,17 +268,7 @@ df_filtrado_part_bairro = df_grouped_part_bairro[df_grouped_part_bairro['BAIRRO'
 df_votos_bairro = df.groupby(['BAIRRO'])['QT_VOTOS'].sum().reset_index()
 total_votos_bairro = df_votos_bairro[df_votos_bairro['BAIRRO'] == bairro_selecionado]['QT_VOTOS'].values[0]
 # Ordenar os partidos 
-df_top6_part_bairro = df_filtrado_part_bairro.sort_values(by='QT_VOTOS', ascending=False).head(6)
 
-fig3 = px.bar(
-    df_top6_part_bairro, 
-    x='SG_PARTIDO', 
-    y='QT_VOTOS', 
-    title=f'Partidos mais votados no bairro {bairro_selecionado}',
-    color='SG_PARTIDO',
-    color_discrete_map=cores_partidos,
-    labels={'QT_VOTOS': 'Total de Votos', 'SG_PARTIDO': 'Partido'},
-)
 
 ## Gráfico 2 - Candidatos x Zona ##
 
@@ -300,14 +290,23 @@ fig4 = px.bar(
 )
 
 # Exibição
-col1, col2 = st.columns([2, 2])
+if cargo == 'VEREADOR':
+    df_top6_part_bairro = df_filtrado_part_bairro.sort_values(by='QT_VOTOS', ascending=False).head(6)
 
-with col1:
+    fig3 = px.bar(
+    df_top6_part_bairro, 
+    x='SG_PARTIDO', 
+    y='QT_VOTOS', 
+    title=f'Partidos mais votados no bairro {bairro_selecionado}',
+    color='SG_PARTIDO',
+    color_discrete_map=cores_partidos,
+    labels={'QT_VOTOS': 'Total de Votos', 'SG_PARTIDO': 'Partido'},
+)
     st.plotly_chart(fig3)
-
-with col2:
     st.plotly_chart(fig4)
-
+else: 
+     st.plotly_chart(fig4)
+     
 st.markdown(f"""
 <div style="font-size:24px; font-weight:bold;">
     🗳️ Total de votos no bairro {bairro_selecionado}: <span>{total_votos_bairro}</span>
