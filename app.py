@@ -227,17 +227,23 @@ fig2 = px.bar(
     category_orders={"NM_VOTAVEL": df_top6_cand['NM_VOTAVEL']}
 )
 
-# Exibição
 col1, col2 = st.columns([3, 1])
+# Exibição
+if cargo == 'VEREADOR':
+    with col1:
+        st.plotly_chart(fig)
 
-with col1:
-    st.plotly_chart(fig)
+    with col2:
+        st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
 
-with col2:
-    st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
+    #with col3:
+    st.plotly_chart(fig2)
+else:
+    with col1:
+        st.plotly_chart(fig2)
 
-#with col3:
-st.plotly_chart(fig2)
+    with col2:
+        st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
 
 st.markdown(f"""
 <div style="font-size:24px; font-weight:bold;">
