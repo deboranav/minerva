@@ -73,7 +73,7 @@ mapeamento_bairros = {
     'SANTOS REIS': 'Santos Reis',
     'TIROL': 'Tirol'
 }
-#### >>> AUTOMATIZAR DICIONARIO
+#### 
 
 import pandas as pd
 import streamlit as st
@@ -120,7 +120,6 @@ st.sidebar.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Containers estilizados para os componentes da sidebar
 with st.sidebar:
     st.markdown('<div class="sidebar-container">', unsafe_allow_html=True)
     st.markdown('<div class="sidebar-title">Escolha o cargo</div>', unsafe_allow_html=True)
@@ -180,10 +179,9 @@ if cargo == 'PREFEITO':
     st.plotly_chart(fig0)
 
 ## Gráfico 1 - Paridos x Zona ##
+st.title('Partidos e Candidatos mais votados por Zona Eleitoral')
 
 df_grouped_part = df.groupby(['NR_ZONA', 'SG_PARTIDO'])['QT_VOTOS'].sum().reset_index()
-
-st.title('Partidos e Candidatos mais votados por Zona Eleitoral')
 
 # Dropdown para selecionar a zona eleitoral
 zonas_unicas = df_grouped_part['NR_ZONA'].unique()
@@ -192,8 +190,6 @@ df_filtrado_part = df_grouped_part[df_grouped_part['NR_ZONA'] == zona_selecionad
 
 df_votos_zona = df.groupby(['NR_ZONA'])['QT_VOTOS'].sum().reset_index()
 total_votos_zona = df_votos_zona[df_votos_zona['NR_ZONA'] == zona_selecionada]['QT_VOTOS'].values[0]
-
-# Ordenar os partidos 
 
 ## Gráfico 2 - Candidatos x Zona ##
 
@@ -215,8 +211,8 @@ fig2 = px.bar(
     category_orders={"NM_VOTAVEL": df_top6_cand['NM_VOTAVEL']}
 )
 
-col1, col2 = st.columns([3, 1])
 # Exibição
+col1, col2 = st.columns([3, 1])
 
 if cargo == 'VEREADOR':
     df_top6_part = df_filtrado_part.sort_values(by='QT_VOTOS', ascending=False).head(6)
@@ -237,8 +233,8 @@ if cargo == 'VEREADOR':
     with col2:
         st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
 
-    #with col3:
     st.plotly_chart(fig2)
+
 else:
     with col1:
         st.plotly_chart(fig2)
@@ -287,6 +283,7 @@ fig4 = px.bar(
     color='SG_PARTIDO',
     color_discrete_map=cores_partidos,
     labels={'QT_VOTOS': 'Total de Votos', 'NM_VOTAVEL': 'Candidato'},
+    category_orders={"NM_VOTAVEL": df_top6_cand_bairro['NM_VOTAVEL']}
 )
 
 # Exibição
