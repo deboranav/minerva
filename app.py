@@ -189,24 +189,6 @@ st.title('Partidos e Candidatos mais votados por Zona Eleitoral')
 zonas_unicas = df_grouped_part['NR_ZONA'].unique()
 zona_selecionada = st.selectbox('Selecione a Zona Eleitoral', zonas_unicas)
 
-df_filtrado_part = df_grouped_part[df_grouped_part['NR_ZONA'] == zona_selecionada]
-
-df_votos_zona = df.groupby(['NR_ZONA'])['QT_VOTOS'].sum().reset_index()
-total_votos_zona = df_votos_zona[df_votos_zona['NR_ZONA'] == zona_selecionada]['QT_VOTOS'].values[0]
-
-# Ordenar os partidos 
-df_top6_part = df_filtrado_part.sort_values(by='QT_VOTOS', ascending=False).head(6)
-
-fig = px.bar(
-    df_top6_part, 
-    x='SG_PARTIDO', 
-    y='QT_VOTOS', 
-    title=f'Partidos mais votados na zona {zona_selecionada}',
-    color='SG_PARTIDO',
-    color_discrete_map=cores_partidos,
-    labels={'QT_VOTOS': 'Total de Votos', 'SG_PARTIDO': 'Partido'},
-)
-
 ## Gráfico 2 - Candidatos x Zona ##
 
 df_grouped_cand = df.groupby(['NR_ZONA', 'SG_PARTIDO', 'NM_VOTAVEL', 'LEGENDA'])['QT_VOTOS'].sum().reset_index()
@@ -229,7 +211,27 @@ fig2 = px.bar(
 
 col1, col2 = st.columns([3, 1])
 # Exibição
+
 if cargo == 'VEREADOR':
+
+    df_filtrado_part = df_grouped_part[df_grouped_part['NR_ZONA'] == zona_selecionada]
+
+    df_votos_zona = df.groupby(['NR_ZONA'])['QT_VOTOS'].sum().reset_index()
+    total_votos_zona = df_votos_zona[df_votos_zona['NR_ZONA'] == zona_selecionada]['QT_VOTOS'].values[0]
+
+    # Ordenar os partidos 
+    df_top6_part = df_filtrado_part.sort_values(by='QT_VOTOS', ascending=False).head(6)
+
+    fig = px.bar(
+    df_top6_part, 
+    x='SG_PARTIDO', 
+    y='QT_VOTOS', 
+    title=f'Partidos mais votados na zona {zona_selecionada}',
+    color='SG_PARTIDO',
+    color_discrete_map=cores_partidos,
+    labels={'QT_VOTOS': 'Total de Votos', 'SG_PARTIDO': 'Partido'},
+    )
+    
     with col1:
         st.plotly_chart(fig)
 
