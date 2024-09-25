@@ -227,16 +227,16 @@ fig2 = px.bar(
 )
 
 # Exibição
-#col1, col2, col3 = st.columns([2, 2, 1])
+col1, col2 = st.columns([2, 2])
 
-#with col1:
-st.plotly_chart(fig)
+with col1:
+    st.plotly_chart(fig)
 
-#with col2:
-st.plotly_chart(fig2)
+with col2:
+    st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
 
 #with col3:
-st.image('zonas.jpg', caption='Mapa das Zonas Eleitorais')
+st.plotly_chart(fig2)
 
 st.markdown(f"""
 <div style="font-size:24px; font-weight:bold;">
