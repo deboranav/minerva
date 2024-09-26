@@ -183,7 +183,7 @@ if cargo == 'PREFEITO':
     title=f'Top 4 Candidatos a prefeito mais votados - {year} (votos válidos)',
     color='SG_PARTIDO',
     color_discrete_map=cores_partidos,  
-    labels={'PERCENTUAL_VOTOS': 'Porcentagem de Votos (%)', 'QT_VOTOS': 'Votos', 'NM_VOTAVEL': 'Candidato'}
+    labels={'PERCENTUAL_VOTOS': 'Porcentagem de Votos (%)', 'QT_VOTOS': 'Votos', 'NM_VOTAVEL': 'Candidato'},
     hover_data={'QT_VOTOS': True}
     )
 
