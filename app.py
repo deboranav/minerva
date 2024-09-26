@@ -184,6 +184,7 @@ if cargo == 'PREFEITO':
     color='SG_PARTIDO',
     color_discrete_map=cores_partidos,  
     labels={'PERCENTUAL_VOTOS': 'Porcentagem de Votos (%)', 'QT_VOTOS': 'Votos', 'NM_VOTAVEL': 'Candidato'}
+    hover_data={'QT_VOTOS': True}
     )
 
     st.plotly_chart(fig0)
